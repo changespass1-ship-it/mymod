@@ -21,7 +21,7 @@ public class SrtMod implements ClientModInitializer {
         ScreenEvents.AFTER_INIT.register((client, screen, w, h) -> {
             if (screen instanceof PauseScreen) {
                 Button b = Button.builder(Component.literal("Swap"),
-                        btn -> client.setScreen(new SwapScreen(screen)))
+                        btn -> client.setScreenAndShow(new SwapScreen(screen)))
                         .bounds(w / 2 - 102, h / 4 + 150, 204, 20).build();
                 Screens.getButtons(screen).add(b);
             }
@@ -56,7 +56,7 @@ public class SrtMod implements ClientModInitializer {
             }).bounds(width / 2 - 100, height / 2 - 10, 200, 20).build());
 
             addRenderableWidget(Button.builder(Component.literal("Done"),
-                    btn -> Minecraft.getInstance().setScreen(parent))
+                    btn -> Minecraft.getInstance().setScreenAndShow(parent))
                     .bounds(width / 2 - 100, height / 2 + 20, 200, 20).build());
         }
 
@@ -66,7 +66,7 @@ public class SrtMod implements ClientModInitializer {
 
         @Override
         public void onClose() {
-            Minecraft.getInstance().setScreen(parent);
+            Minecraft.getInstance().setScreenAndShow(parent);
         }
     }
 }
