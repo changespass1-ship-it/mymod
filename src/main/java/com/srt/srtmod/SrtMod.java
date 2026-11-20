@@ -2,7 +2,6 @@ package com.srt.srtmod;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -12,6 +11,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Items;
+
+import java.lang.reflect.Method;
 
 public class SrtMod implements ClientModInitializer {
     public static boolean enabled = false;
@@ -23,7 +24,7 @@ public class SrtMod implements ClientModInitializer {
                 Button b = Button.builder(Component.literal("Swap"),
                         btn -> client.setScreenAndShow(new SwapScreen(screen)))
                         .bounds(w / 2 - 102, h / 4 + 150, 204, 20).build();
-                Screens.getButtons(screen).add(b);
+                addWidget(screen, b);
             }
         });
 
@@ -38,6 +39,20 @@ public class SrtMod implements ClientModInitializer {
             }
             return InteractionResult.PASS;
         });
+    }
+
+    private static void addWidget(Screen screen, Button button) {
+        try {
+            for (Method m : Screen.class.getDeclaredMethods()) {
+                if (m.getName().equals("addRenderableWidget") && m.getParameterCount() == 1) {
+                    m.setAccessible(true);
+                    m.invoke(screen, button);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static class SwapScreen extends Screen {
