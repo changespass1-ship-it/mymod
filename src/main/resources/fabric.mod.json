@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "srtmod",
+  "version": "${version}",
+  "name": "SRT Mod",
+  "description": "Hit with an axe and instantly swap to the mace. Toggle from the Swap menu in the Esc screen.",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.srt.srtmod.SrtMod"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.1",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
